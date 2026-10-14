@@ -14,6 +14,7 @@ requirements = python3,kivy
 orientation = portrait
 fullscreen = 0
 
-p4a.branch = master
+p4a.branch = p4a.url = https://github.com/kivy/python-for-android.git
+p4a.branch = develop
 android.api = 35
 android.minapi = 23
