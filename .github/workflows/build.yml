@@ -47,9 +47,12 @@ jobs:
 
       
       
+        - name: Clean Build
+        run: |
+          buildozer android clean
+
       - name: Build APK
         run: |
-          
           yes | buildozer -v android debug
 
       - name: Upload APK
