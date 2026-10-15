@@ -38,6 +38,14 @@ jobs:
             libncursesw5-dev libtinfo5 \
             build-essential
 
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Accept SDK licenses and install build tools
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
       - name: Install Buildozer
         run: |
           python -m pip install --upgrade pip
