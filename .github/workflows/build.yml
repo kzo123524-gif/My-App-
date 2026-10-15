@@ -35,14 +35,12 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: |
-            platform-tools
-            platforms;android-35
-            build-tools;35.0.0
 
-      - name: Link Android SDK for Buildozer
+      - name: Accept SDK licenses and install build tools
         run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+
           mkdir -p "$HOME/.buildozer/android/platform/android-sdk"
           ln -sfn "$ANDROID_SDK_ROOT/platform-tools" "$HOME/.buildozer/android/platform/android-sdk/platform-tools"
           ln -sfn "$ANDROID_SDK_ROOT/build-tools" "$HOME/.buildozer/android/platform/android-sdk/build-tools"
