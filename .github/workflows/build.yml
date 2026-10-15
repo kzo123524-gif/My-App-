@@ -33,8 +33,11 @@ jobs:
             libffi-dev libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev \
             libtinfo5 build-essential
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+            - name: Setup Android SDK
+          uses: android-actions/setup-android@v4
+          with:
+          packages: platform-tools
+          
 
       - name: Accept SDK licenses and install build tools
         run: |
