@@ -38,30 +38,35 @@ jobs:
     - name: Accept SDK licenses and install build tools
       run: |
        yes | sdkmanager --licenses
-       sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+       sdkmanager --install "platform-tools" "platforms;android-35" "build-tools;35.0.0" "build-tools;37.0.0"
+       mkdir -p "$HOME/.buildozer/android/platform/android-sdk"
+       ln -sfn "$ANDROID_SDK_ROOT/platform-tools" "$HOME/.buildozer/android/platform/android-sdk/platform-tools"
+       ln -sfn "$ANDROID_SDK_ROOT/build-tools" "$HOME/.buildozer/android/platform/android-sdk/build-tools"
+       ln -sfn "$ANDROID_SDK_ROOT/platforms" "$HOME/.buildozer/android/platform/android-sdk/platforms"
+       ln -sfn "$ANDROID_SDK_ROOT/cmdline-tools" "$HOME/.buildozer/android/platform/android-sdk/cmdline-tools"
 
-    - name: Install Buildozer
-      run: |
+       - name: Install Buildozer
+       run: |
        python -m pip install --upgrade pip
        python -m pip install "setuptools<81" wheel
        python -m pip install "Cython==0.29.33"
        python -m pip install buildozer
 
-    - name: Clean old build
-      run: |
+       - name: Clean old build
+       run: |
        rm -rf .buildozer bin
 
-    - name: Build APK
+       - name: Build APK
       env:
        PYTHONUNBUFFERED: "1"
        PYTHONFORANDROID_PREREQUISITES_INSTALL_INTERACTIVE: "0"
-      run: |
-       buildozer -v android debug
+       run: |
+        buildozer -v android debug
 
-    - name: Upload APK
-      if: success()
-      uses: actions/upload-artifact@v4
-      with:
+        - name: Upload APK
+       if: success()
+       uses: actions/upload-artifact@v4
+       with:
        name: MyApp-APK
        path: bin/*.apk
        if-no-files-found: error
